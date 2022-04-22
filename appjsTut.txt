@@ -1,0 +1,225 @@
+// console.log("Hey ninjas I am Ashutosh");
+
+// setTimeout(function () {
+//   console.log("3 seconds have passed");
+// }, 3000);
+
+// var time = 0;
+// var timer = setInterval(function () {
+//   time += 1;
+//   console.log(time + " seconds have passed");
+//   if (time > 59) {
+//     clearInterval(timer);
+//   }
+// }, 1000);
+
+// console.log(__dirname);
+// console.log(__filename);
+
+// normal function statemnet
+// function sayHi() {
+//   console.log("hi");
+// }
+
+// sayHi();
+
+// function callFunction(fun) {
+//   fun();
+// }
+
+// // function expression
+// const sayBye = function () {
+//   console.log("Bye");
+// };
+
+// callFunction(sayBye);
+
+// const stuff = require("./stuff");
+
+// console.log(stuff.counter(["Ashutosh", "crystal", "ryu", "ninjas"]));
+
+// console.log(stuff.adder(5, 6));
+// console.log(stuff.adder(stuff.pi, 5));
+/*
+var events = require("events");
+
+// element.on("click", function () {});
+
+// var myEmitter = new events.EventEmitter();
+
+// myEmitter.on("someEvent", function (msg) {
+//   console.log(msg);
+// });
+
+// myEmitter.emit("someEvent", "The event was emitted.");
+
+var util = require("util");
+
+var Person = function (name) {
+  this.name = name;
+};
+
+util.inherits(Person, events.EventEmitter);
+
+var Ram = new Person("Ram ");
+var Bheem = new Person("Bheem ");
+var Rajamauli = new Person("Rajamauli ");
+
+var people = [Ram, Bheem, Rajamauli];
+
+people.forEach(function (person) {
+  person.on("speak", function (msg) {
+    console.log(person.name + "said: " + msg);
+  });
+});
+
+Ram.emit("speak", "Ye mere baba ki factory me bane hathiyaar hain.");
+
+Rajamauli.emit("speak", "Good shot Ram.");
+*/
+
+/*
+const fs = require("fs");
+
+const readMe = fs.readFileSync("readme.txt", "utf-8");
+// console.log(readMe);
+
+fs.writeFileSync("writeMe.txt", readMe);
+
+
+const fs = require("fs");
+
+fs.readFile("readme.txt", "utf-8", function (err, data) {
+  fs.writeFile("writeme.txt", data, function (err, result) {});
+});
+*/
+/*
+const fs = require("fs");
+
+// fs.unlink("writeme.txt", () => {});
+
+// fs.mkdirSync("stuff");
+// fs.rmdirSync("stuff");
+
+fs.mkdir("stuff", function () {
+  fs.readFile("readme.txt", "utf-8", function (err, data) {
+    fs.writeFile("./stuff/writeMe.txt", data, () => {});
+  });
+});
+
+
+fs.unlink("./stuff/writeMe.txt", function () {
+  fs.rmdir("stuff", () => {});
+});
+
+// creating a server
+
+const http = require("http");
+
+const server = http.createServer(function (req, res) {
+  console.log("request was made: " + req.url);
+  res.writeHead(200, { "Content-Type": "text/plain" });
+  res.end("Hey ninjas");
+});
+
+server.listen(3000, "127.0.0.1");
+console.log("yo dawgs, now listening to port 3000");
+*/
+/*
+
+// readable and writeable streams and buffers
+
+const http = require("http");
+const fs = require("fs");
+
+const myReadStream = fs.createReadStream(__dirname + "/readme.txt", "utf-8");
+const myWriteStream = fs.createWriteStream(__dirname + "/writeme.txt");
+
+myReadStream.pipe(myWriteStream);
+
+myReadStream.on("data", function (chunk) {
+  console.log("new chunk recieved: ");
+  myWriteStream.write(chunk);
+});
+
+// PIPES
+const http = require("http");
+const fs = require("fs");
+
+const server = http.createServer(function (req, res) {
+  console.log("request was made: " + req.url);
+  res.writeHead(200, { "Content-Type": "text/plain" });
+
+  const myReadStream = fs.createReadStream(__dirname + "/readme.txt", "utf-8");
+
+  myReadStream.pipe(res);
+});
+
+server.listen(3000, "127.0.0.1");
+console.log("yo dawgs, now listening to port 3000");
+
+
+// SERVING html PAGES
+const http = require("http");
+const fs = require("fs");
+
+const server = http.createServer(function (req, res) {
+  console.log("request was made: " + req.url);
+  res.writeHead(200, { "Content-Type": "text/html" });
+
+  const myReadStream = fs.createReadStream(__dirname + "/index.html", "utf-8");
+
+  myReadStream.pipe(res);
+});
+
+server.listen(3000, "127.0.0.1");
+console.log("yo dawgs, now listening to port 3000");
+
+
+// SERVING JSON DATA
+
+const http = require("http");
+const fs = require("fs");
+
+const server = http.createServer(function (req, res) {
+  console.log("request was made: " + req.url);
+  res.writeHead(200, { "Content-Type": "application/json" });
+  const myObj = {
+    name: "Ashutosh",
+    job: "Coding Ninja",
+    age: 20,
+  };
+  res.end(JSON.stringify(myObj));
+});
+
+server.listen(3000, "127.0.0.1");
+console.log("yo dawgs, now listening to port 3000");
+*/
+
+// Basic routing
+
+const http = require("http");
+const fs = require("fs");
+
+const server = http.createServer(function (req, res) {
+  console.log("request was made: " + req.url);
+  if (req.url === "/home" || req.url === "/") {
+    res.writeHead(200, { "Content-Type": "text/html" });
+    fs.createReadStream(__dirname + "/index.html").pipe(res);
+  } else if (req.url === "/contact-us") {
+    res.writeHead(200, { "Content-Type": "text/html" });
+    fs.createReadStream(__dirname + "/contact.html").pipe(res);
+  } else if (req.url === "/api/ninjas") {
+    var ninjas = [
+      { name: "Ashutosh", age: 20 },
+      { name: "Naveen", age: 19 },
+    ];
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify(ninjas));
+  } else {
+    res.writeHead(404, { "Content-Type": "text/html" });
+    fs.createReadStream(__dirname + "/404.html").pipe(res);
+  }
+});
+server.listen(3000, "127.0.0.1");
+console.log("yo dawgs, now listening to port 3000");
